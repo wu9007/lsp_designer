@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lsp_designer_example/models/BillModel.dart';
+import 'package:lsp_designer_example/BillModel.dart';
 import 'package:lsp_designer/SingleElection.dart';
 import 'package:lsp_designer/Selector.dart';
 import 'package:lsp_designer/VagueSelector.dart';
