@@ -2,6 +2,7 @@
 
 [![License][license-image]][license-url] 
 [![Pub](https://img.shields.io/pub/v/lsp_designer.svg?style=flat-square)](https://pub.dartlang.org/packages/lsp_designer)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4e4dae89975e4781a7d6ea2d2d8752d7)](https://www.codacy.com/app/leyan95/lsp_designer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=leyan95/lsp_designer&amp;utm_campaign=Badge_Grade)
 
 A practical component library from Logistics Service Management Product Group feels silky and smooth when used. 🚀
 
@@ -9,9 +10,9 @@ A practical component library from Logistics Service Management Product Group fe
 
 ![lsp_designer.gif](https://upload-images.jianshu.io/upload_images/3646846-7dd1837bedd46914.gif?imageMogr2/auto-orient/strip)
 
-```
+```yaml
 dependencies:
- lsp_designer: ^0.1.1
+ lsp_designer: ^0.1.2
 ```
 
 ## Usage example
