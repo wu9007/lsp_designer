@@ -16,6 +16,7 @@ class AddBillState extends State<AddBill> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: true,
       appBar: AppBar(
         title: Text('LSP_DESIGNER'),
       ),
@@ -91,7 +92,8 @@ class AddBillState extends State<AddBill> {
                   content: '单据：AB-190517' + index.toString());
             }),
             onPressed: (value) {
-              this.setState(() => this.bill.associateBill = value);
+              if (value != null)
+                this.setState(() => this.bill.associateBill = value);
             },
             placeholder: '请选择关联单据',
           ),
