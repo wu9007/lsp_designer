@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lsp_designer/CircularSheet.dart';
+
 /// 底部列表模糊查询选择器
 /// Created by Shusheng.
 class VagueSelector<D, V, C> extends StatefulWidget {
@@ -60,58 +61,61 @@ class VagueSelectorState<D, V, C> extends State<VagueSelector<D, V, C>> {
         children: <Widget>[
           widget.label,
           Expanded(
-            child: Container(
-              height: 31,
-              decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(width: 0.5, color: Colors.grey[350]))),
-              padding: EdgeInsets.only(left: 10.0),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      valid
-                          ? this._display ?? widget.placeholder
-                          : widget.placeholder,
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: valid ? Colors.black : Colors.black54),
+            child: GestureDetector(
+              child: Container(
+                height: 31,
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom:
+                            BorderSide(width: 0.5, color: Colors.grey[350]))),
+                padding: EdgeInsets.only(left: 10.0),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        valid
+                            ? this._display ?? widget.placeholder
+                            : widget.placeholder,
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: valid ? Colors.black : Colors.black54),
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    padding: EdgeInsets.only(),
-                    icon: Icon(Icons.more_horiz, color: Colors.black54),
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return CircularSheet(
-                            head: TextField(
-                              controller: _controller,
-                              decoration: InputDecoration(
-                                hintText: "Search...",
-                                hintStyle: TextStyle(color: Colors.grey[500]),
-                                contentPadding: EdgeInsets.only(
-                                    left: 10, bottom: 0, top: 22),
-                                suffixIcon: IconButton(
-                                  padding: EdgeInsets.only(top: 12),
-                                  icon: Icon(Icons.search),
-                                  onPressed: () => print('searching...'),
-                                ),
-                              ),
-                            ),
-                            child: ListView(
-                              children: this._buildFilterItem(),
-                            ),
-                          );
-                        },
-                      ).then((value) {
-                        widget.onPressed(value);
-                      });
-                    },
-                  )
-                ],
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5.5),
+                      child: Icon(Icons.list, color: Colors.black54),
+                    ),
+                  ],
+                ),
               ),
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CircularSheet(
+                      head: TextField(
+                        controller: _controller,
+                        decoration: InputDecoration(
+                          hintText: "Search...",
+                          hintStyle: TextStyle(color: Colors.grey[500]),
+                          contentPadding:
+                              EdgeInsets.only(left: 10, bottom: 0, top: 22),
+                          suffixIcon: IconButton(
+                            padding: EdgeInsets.only(top: 12),
+                            icon: Icon(Icons.search),
+                            onPressed: () => print('searching...'),
+                          ),
+                        ),
+                      ),
+                      child: ListView(
+                        children: this._buildFilterItem(),
+                      ),
+                    );
+                  },
+                ).then((value) {
+                  widget.onPressed(value);
+                });
+              },
             ),
           ),
         ],

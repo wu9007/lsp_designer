@@ -178,16 +178,32 @@ class AddBillState extends State<AddBill> {
             ),
           ),
           Divider(
-            height: 160,
+            height: 12,
           )
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        notchMargin: 30.0,
+        color: Theme.of(context).primaryColor,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            IconButton(
+                icon: Icon(Icons.hot_tub, color: Colors.white),
+                onPressed: () {}),
+            IconButton(
+                icon: Icon(Icons.add_a_photo, color: Colors.white),
+                onPressed: () {})
+          ],
+        ),
       ),
       floatingActionButton: SaveButton(this.bill.available(),
           successCallback: () => this.setState(() {
                 this.bill = BillModel.build();
                 this.salesCodeController.clear();
               })),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 
@@ -260,18 +276,27 @@ class SaveButton extends StatelessWidget {
       icon: Icon(
         Icons.send,
       ),
-      label: Text(' 提   交'),
+      label: Text(' 提  交'),
     );
   }
 
   _showSnackBar(context, content, successful) {
     final snackBar = SnackBar(
-      content: Text(
-        content,
-        style: TextStyle(color: Colors.white),
+      content: Row(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 10),
+            child: Icon(Icons.notifications_active, color: Colors.black),
+          ),
+          Text(
+            content,
+            style: TextStyle(color: Colors.black54),
+          )
+        ],
       ),
-      backgroundColor: successful ? Colors.green : Colors.red,
-      action: SnackBarAction(label: 'X', onPressed: () {}),
+      backgroundColor: successful ? Colors.green : Colors.yellowAccent,
+      action: SnackBarAction(
+          label: '关 闭', textColor: Colors.black54, onPressed: () {}),
       duration: Duration(seconds: 3),
     );
     Scaffold.of(context).showSnackBar(snackBar);

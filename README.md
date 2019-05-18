@@ -3,7 +3,7 @@
 [![License][license-image]][license-url] 
 [![Pub](https://img.shields.io/pub/v/lsp_designer.svg?style=flat-square)](https://pub.dartlang.org/packages/lsp_designer)
 
-A Practical Component Library for Logistics Management System 🚀
+A practical component library from Logistics Service Management Product Group feels silky and smooth when used. 🚀
 
 [github](https://github.com/leyan95/lsp_designer)
 
@@ -11,7 +11,7 @@ A Practical Component Library for Logistics Management System 🚀
 
 ```
 dependencies:
- lsp_designer: ^0.1.0
+ lsp_designer: ^0.1.1
 ```
 
 ## Usage example
@@ -29,11 +29,14 @@ dependencies:
 
 ```dart
 SingleElection<String>.build(
-    value: this.bill.billType,
+    value: this._billType,
     color: Colors.orange,
-    list: this._billTypeList,
+    list: List.generate(
+                2,
+                (index) =>
+                    SingleElectionItem('开单类型' + index.toString(), index.toString())),
     onPressed: (item) =>
-        this.setState(() => this.bill.billType = item.value),
+        this.setState(() => this._billType = item.value),
 )
 ```
 
@@ -47,7 +50,7 @@ SingleElection<String>.build(
             
 ```dart
 Selector(
-    value: this.bill.payMode,
+    value: this._payMode,
     label: Text(
       '付款方式：',
       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
@@ -56,8 +59,16 @@ Selector(
       padding: EdgeInsets.only(left: 10.0),
       child: Text('请选择付款方式'),
     ),
-    store: this._payModeStore(),
-    onChange: (item) => this.setState(() => this.bill.payMode = item),
+    store: List.generate(
+                   5,
+                   (index) => DropdownMenuItem(
+                         value: '001' + index.toString(),
+                         child: Container(
+                           padding: EdgeInsets.only(left: 10),
+                           child: Text('付款方式' + index.toString()),
+                         ),
+                       )),
+    onChange: (item) => this.setState(() => this._payMode = item),
 )
 ```
 
@@ -68,16 +79,13 @@ Selector(
 ```dart
 CircularSheet(
   head: Text(
-    '请选择入库单',
+    'TITLE',
     style: TextStyle(
       fontSize: 15,
       color: Colors.black45,
     ),
   ),
-  child: DynamicListView.build(
-      itemBuilder: _itemBuilder,
-      dataRequester: _dataRequester,
-      initRequester: _initRequester),
+  child: Container(color: Colors.blue),
 )
 ```
 
@@ -94,6 +102,7 @@ CircularSheet(
 
 ```dart
 VagueSelector.build(
+    value: this._associateBill,
     label: Text(
       '关联单据：',
       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
@@ -105,7 +114,7 @@ VagueSelector.build(
           content: '单据：AB-190517' + index.toString());
     }),
     onPressed: (value) {
-      this.setState(() => this.bill.associateBill = value);
+      this.setState(() => this._associateBill = value);
     },
 )
 ```
