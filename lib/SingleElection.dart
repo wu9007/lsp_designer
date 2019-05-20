@@ -63,12 +63,14 @@ class SingleElectionState extends State<SingleElection> {
 class SingleElectionItem {
   String label;
   dynamic value;
+  dynamic sourceBody;
 
   SingleElectionItem(this.label, this.value);
 
   SingleElectionItem.fromJson(Map<String, dynamic> json, {labelName, valueName})
       : label = json[labelName ?? 'label'] ?? '',
-        value = json[valueName ?? 'value'] ?? '';
+        value = json[valueName ?? 'value'] ?? '',
+        sourceBody = json;
 
   static List<SingleElectionItem> allFromJson(List jsonList,
       {labelName, valueName}) {

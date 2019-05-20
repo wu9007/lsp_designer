@@ -3,7 +3,7 @@ import 'package:lsp_designer/CircularSheet.dart';
 
 /// 底部列表模糊查询选择器
 /// Created by Shusheng.
-class VagueSelector<D, V, C> extends StatefulWidget {
+class VagueSelector extends StatefulWidget {
   VagueSelector.build(
       {@required this.label,
       @required this.value,
@@ -12,16 +12,16 @@ class VagueSelector<D, V, C> extends StatefulWidget {
       @required this.onPressed});
 
   final Text label;
-  final V value;
+  final dynamic value;
   final String placeholder;
-  final List<SelectorItem<D, V, C>> list;
+  final List<SelectorItem> list;
   final OnPressedFunction onPressed;
 
   @override
   State<StatefulWidget> createState() => new VagueSelectorState();
 }
 
-class VagueSelectorState<D, V, C> extends State<VagueSelector<D, V, C>> {
+class VagueSelectorState extends State<VagueSelector> {
   final TextEditingController _controller = new TextEditingController();
   String _searchContent;
   String _display;
@@ -82,7 +82,8 @@ class VagueSelectorState<D, V, C> extends State<VagueSelector<D, V, C>> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5.5),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 0, horizontal: 5.5),
                       child: Icon(Icons.list, color: Colors.black54),
                     ),
                   ],
@@ -124,7 +125,7 @@ class VagueSelectorState<D, V, C> extends State<VagueSelector<D, V, C>> {
   }
 
   _buildFilterItem() {
-    List<SelectorItem<D, V, C>> filterList;
+    List<SelectorItem> filterList;
     if (this._searchContent == null || this._searchContent.isEmpty) {
       filterList = widget.list;
     } else {
@@ -167,13 +168,27 @@ class VagueSelectorState<D, V, C> extends State<VagueSelector<D, V, C>> {
   }
 }
 
-class SelectorItem<D, V, C> {
-  D display;
-  V value;
-  C content;
+class SelectorItem {
+  dynamic display;
+  dynamic value;
+  dynamic content;
 
   SelectorItem(
       {@required this.display, @required this.value, @required this.content});
+
+  SelectorItem.fromJson(Map<String, dynamic> json,
+      {display, valueName, content})
+      : display = json[display ?? 'label'] ?? '',
+        value = json[valueName ?? 'value'] ?? '',
+        content = json[content ?? 'content'] ?? '';
+
+  static List<SelectorItem> allFromJson(List jsonList,
+      {display, valueName, content}) {
+    return jsonList
+        .map((json) => SelectorItem.fromJson(json,
+            display: display, valueName: valueName, content: content))
+        .toList();
+  }
 }
 
 typedef void OnPressedFunction(value);
