@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 /// 单选按钮组
 /// Created by Shusheng.
-class SingleElection<T> extends StatefulWidget {
-  final List<SingleElectionItem<T>> list;
+class SingleElection extends StatefulWidget {
+  final List<SingleElectionItem> list;
   final OnPressedFunction onPressed;
   final MaterialColor color;
-  final T value;
+  final dynamic value;
 
   @override
-  State<StatefulWidget> createState() => new SingleElectionState<T>();
+  State<StatefulWidget> createState() => new SingleElectionState();
 
   SingleElection.build(
       {@required this.list,
@@ -18,7 +18,7 @@ class SingleElection<T> extends StatefulWidget {
       this.color});
 }
 
-class SingleElectionState<T> extends State<SingleElection> {
+class SingleElectionState extends State<SingleElection> {
   MaterialColor color;
 
   @override
@@ -34,35 +34,49 @@ class SingleElectionState<T> extends State<SingleElection> {
     } else {
       color = Theme.of(context).primaryColor;
     }
-    return Wrap(
-        children: List<Widget>.generate(widget.list.length, (index) {
-      bool selected = widget.list[index].value == widget.value;
-      return Container(
-        height: 30,
-        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-        child: FlatButton(
-          color: selected ? color[50] : Colors.transparent,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              side: BorderSide(color: selected ? color : Colors.grey)),
-          child: Text(
-            widget.list[index].label,
-            style: new TextStyle(color: selected ? color : Colors.black),
-          ),
-          onPressed: () {
-            widget.onPressed(widget.list[index]);
-          },
-        ),
-      );
-    }));
+    return widget.list != null
+        ? Wrap(
+            children: List<Widget>.generate(widget.list.length, (index) {
+            bool selected = widget.list[index].value == widget.value;
+            return Container(
+              height: 30,
+              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+              child: FlatButton(
+                color: selected ? color[50] : Colors.transparent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    side: BorderSide(color: selected ? color : Colors.grey)),
+                child: Text(
+                  widget.list[index].label,
+                  style: new TextStyle(color: selected ? color : Colors.black),
+                ),
+                onPressed: () {
+                  widget.onPressed(widget.list[index]);
+                },
+              ),
+            );
+          }))
+        : Container();
   }
 }
 
-class SingleElectionItem<T> {
+class SingleElectionItem {
   String label;
-  T value;
+  dynamic value;
 
   SingleElectionItem(this.label, this.value);
+
+  SingleElectionItem.fromJson(Map<String, dynamic> json, {labelName, valueName})
+      : label = json[labelName ?? 'label'] ?? '',
+        value = json[valueName ?? 'value'] ?? '';
+
+  static List<SingleElectionItem> allFromJson(List jsonList,
+      {labelName, valueName}) {
+    return jsonList
+        .map((json) => SingleElectionItem.fromJson(json,
+            labelName: labelName, valueName: valueName))
+        .toList();
+  }
 }
 
 typedef void OnPressedFunction(SingleElectionItem item);

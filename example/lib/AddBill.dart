@@ -33,7 +33,7 @@ class AddBillState extends State<AddBill> {
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 10),
-                  child: SingleElection<String>.build(
+                  child: SingleElection.build(
                     value: this.bill.warehouse,
                     color: Colors.teal,
                     list: this._warehouseList,
@@ -55,7 +55,7 @@ class AddBillState extends State<AddBill> {
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 10),
-                  child: SingleElection<String>.build(
+                  child: SingleElection.build(
                     value: this.bill.billType,
                     color: Colors.orange,
                     list: this._billTypeList,
@@ -108,7 +108,7 @@ class AddBillState extends State<AddBill> {
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 10),
-                  child: SingleElection<String>.build(
+                  child: SingleElection.build(
                     value: this.bill.purchaseMode,
                     color: Colors.deepOrange,
                     list: this._purchaseModeList,
@@ -130,7 +130,7 @@ class AddBillState extends State<AddBill> {
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 10),
-                  child: SingleElection<String>.build(
+                  child: SingleElection.build(
                     value: this.bill.payMode,
                     list: this._payModeList,
                     onPressed: (item) =>
@@ -209,22 +209,22 @@ class AddBillState extends State<AddBill> {
     );
   }
 
-  List<SingleElectionItem<String>> _payModeList = List.generate(
+  List<SingleElectionItem> _payModeList = List.generate(
       2,
       (index) =>
           SingleElectionItem('付款方式' + index.toString(), index.toString()));
 
-  List<SingleElectionItem<String>> _purchaseModeList = List.generate(
+  List<SingleElectionItem> _purchaseModeList = List.generate(
       5,
       (index) =>
           SingleElectionItem('采购方式' + index.toString(), index.toString()));
 
-  List<SingleElectionItem<String>> _billTypeList = List.generate(
+  List<SingleElectionItem> _billTypeList = List.generate(
       2,
       (index) =>
           SingleElectionItem('开单类型' + index.toString(), index.toString()));
 
-  List<SingleElectionItem<String>> _warehouseList = List.generate(
+  List<SingleElectionItem> _warehouseList = List.generate(
       3,
       (index) =>
           SingleElectionItem('中心库房' + index.toString(), index.toString()));

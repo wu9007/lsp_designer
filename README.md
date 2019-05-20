@@ -12,24 +12,24 @@ A practical component library from Logistics Service Management Product Group fe
 
 ```yaml
 dependencies:
- lsp_designer: ^0.1.2
+ lsp_designer: ^0.1.3
 ```
 
 ## Usage example
 ### SingleElection 
-#### `SingleElection<T>`
+#### `SingleElection`
 `SingleElection.build(
             {@required this.list,
             @required this.value,
             @required this.onPressed,
             this.color});`
 
-#### `SingleElectionItem<T>`
+#### `SingleElectionItem`
 `SingleElectionItem(this.label, this.value);`
 
 
 ```dart
-SingleElection<String>.build(
+SingleElection.build(
     value: this._billType,
     color: Colors.orange,
     list: List.generate(
