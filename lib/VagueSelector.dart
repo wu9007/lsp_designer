@@ -127,7 +127,7 @@ class VagueSelectorState extends State<VagueSelector> {
   _buildFilterItem() {
     List<SelectorItem> filterList;
     if (this._searchContent == null || this._searchContent.isEmpty) {
-      filterList = widget.list;
+      filterList = widget.list ?? new List();
     } else {
       filterList = List();
       for (int i = 0; i < widget.list.length; i++) {
