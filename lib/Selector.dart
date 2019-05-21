@@ -8,7 +8,14 @@ class Selector<T> extends StatefulWidget {
       @required this.label,
       @required this.hint,
       @required this.store,
-      @required this.onChange});
+      @required this.onChange})
+      : assert(store == null ||
+            store.isEmpty ||
+            value == null ||
+            store
+                    .where((DropdownMenuItem<T> item) => item.value == value)
+                    .length ==
+                1);
 
   final T value;
   final Widget label;
