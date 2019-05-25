@@ -8,16 +8,18 @@ class SingleElection extends StatefulWidget {
   final MaterialColor color;
   final dynamic value;
   final bool disabled;
+  final String disabledHind;
 
   @override
   State<StatefulWidget> createState() => new SingleElectionState();
 
   SingleElection.build(
       {@required this.list,
-      @required this.value,
-      @required this.onPressed,
-      this.color,
-      this.disabled = false});
+        @required this.value,
+        @required this.onPressed,
+        this.color,
+        this.disabled = false,
+        this.disabledHind = '禁止操作'});
 }
 
 class SingleElectionState extends State<SingleElection> {
@@ -38,28 +40,28 @@ class SingleElectionState extends State<SingleElection> {
     }
     return widget.list != null
         ? Wrap(
-            children: List<Widget>.generate(widget.list.length, (index) {
-            bool selected = widget.list[index].value == widget.value;
-            return Container(
-              height: 30,
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-              child: FlatButton(
-                color: selected ? color[50] : Colors.transparent,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    side: BorderSide(color: selected ? color : Colors.grey)),
-                child: Text(
-                  widget.list[index].label,
-                  style: new TextStyle(color: selected ? color : Colors.black),
-                ),
-                onPressed: () {
-                  widget.disabled
-                      ? _showDialog()
-                      : widget.onPressed(widget.list[index]);
-                },
+        children: List<Widget>.generate(widget.list.length, (index) {
+          bool selected = widget.list[index].value == widget.value;
+          return Container(
+            height: 30,
+            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+            child: FlatButton(
+              color: selected ? color[50] : Colors.transparent,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  side: BorderSide(color: selected ? color : Colors.grey)),
+              child: Text(
+                widget.list[index].label,
+                style: new TextStyle(color: selected ? color : Colors.black),
               ),
-            );
-          }))
+              onPressed: () {
+                widget.disabled
+                    ? _showDialog()
+                    : widget.onPressed(widget.list[index]);
+              },
+            ),
+          );
+        }))
         : Container();
   }
 
@@ -67,20 +69,20 @@ class SingleElectionState extends State<SingleElection> {
     showDialog(
         context: context,
         builder: (context) => Center(
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.black87,
-                    borderRadius: BorderRadius.circular(10.0)),
-                padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-                child: Text(
-                  "不可用操作",
-                  style: TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.white,
-                      decoration: TextDecoration.none),
-                ),
-              ),
-            ));
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.black87,
+                borderRadius: BorderRadius.circular(10.0)),
+            padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+            child: Text(
+              widget.disabledHind,
+              style: TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.white,
+                  decoration: TextDecoration.none),
+            ),
+          ),
+        ));
   }
 }
 
@@ -100,7 +102,7 @@ class SingleElectionItem {
       {labelName, valueName}) {
     return jsonList
         .map((json) => SingleElectionItem.fromJson(json,
-            labelName: labelName, valueName: valueName))
+        labelName: labelName, valueName: valueName))
         .toList();
   }
 }
