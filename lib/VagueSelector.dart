@@ -4,18 +4,19 @@ import 'package:lsp_designer/CircularSheet.dart';
 /// 底部列表模糊查询选择器
 /// Created by Shusheng.
 class VagueSelector extends StatefulWidget {
-  VagueSelector.build(
-      {@required this.label,
-      @required this.value,
-      @required this.placeholder,
-      @required this.list,
-      @required this.onPressed});
+  VagueSelector.build({@required this.label,
+    @required this.value,
+    @required this.placeholder,
+    @required this.list,
+    @required this.onPressed,
+    this.disabled = false});
 
   final Text label;
   final dynamic value;
   final String placeholder;
   final List<SelectorItem> list;
   final OnPressedFunction onPressed;
+  final bool disabled;
 
   @override
   State<StatefulWidget> createState() => new VagueSelectorState();
@@ -24,7 +25,6 @@ class VagueSelector extends StatefulWidget {
 class VagueSelectorState extends State<VagueSelector> {
   final TextEditingController _controller = new TextEditingController();
   String _searchContent;
-  String _display;
 
   VagueSelectorState() {
     _controller.addListener(() {
@@ -54,6 +54,14 @@ class VagueSelectorState extends State<VagueSelector> {
   @override
   Widget build(BuildContext context) {
     bool valid = widget.value != null;
+    String display;
+    if (valid && widget.list != null && widget.list.length > 0) {
+      display =
+          widget.list
+              .singleWhere((item) => item.value == widget.value)
+              .display;
+    }
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 3.0, horizontal: 8.0),
       child: Row(
@@ -61,62 +69,64 @@ class VagueSelectorState extends State<VagueSelector> {
         children: <Widget>[
           widget.label,
           Expanded(
-            child: GestureDetector(
-              child: Container(
-                height: 31,
-                decoration: BoxDecoration(
-                    border: Border(
-                        bottom:
-                            BorderSide(width: 0.5, color: Colors.grey[350]))),
-                padding: EdgeInsets.only(left: 10.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        valid
-                            ? this._display ?? widget.placeholder
-                            : widget.placeholder,
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: valid ? Colors.black : Colors.black54),
-                      ),
-                    ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 0, horizontal: 5.5),
-                      child: Icon(Icons.list, color: Colors.black54),
-                    ),
-                  ],
-                ),
-              ),
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return CircularSheet(
-                      head: TextField(
-                        controller: _controller,
-                        decoration: InputDecoration(
-                          hintText: "Search...",
-                          hintStyle: TextStyle(color: Colors.grey[500]),
-                          contentPadding:
-                              EdgeInsets.only(left: 10, bottom: 0, top: 22),
-                          suffixIcon: IconButton(
-                            padding: EdgeInsets.only(top: 12),
-                            icon: Icon(Icons.search),
-                            onPressed: () => print('searching...'),
-                          ),
+            child: Opacity(
+              opacity: widget.disabled ? 0.4 : 1,
+              child: GestureDetector(
+                child: Container(
+                  height: 31,
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom:
+                          BorderSide(width: 0.5, color: Colors.grey[350]))),
+                  padding: EdgeInsets.only(left: 10.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          valid ? display ?? '' : widget.placeholder,
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: valid ? Colors.black : Colors.black54),
                         ),
                       ),
-                      child: ListView(
-                        children: this._buildFilterItem(),
+                      Container(
+                        padding:
+                        EdgeInsets.symmetric(vertical: 0, horizontal: 5.5),
+                        child: Icon(Icons.list, color: Colors.black54),
                       ),
-                    );
-                  },
-                ).then((value) {
-                  widget.onPressed(value);
-                });
-              },
+                    ],
+                  ),
+                ),
+                onTap: () {
+                  if (!widget.disabled)
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return CircularSheet(
+                          head: TextField(
+                            controller: _controller,
+                            decoration: InputDecoration(
+                              hintText: "Search...",
+                              hintStyle: TextStyle(color: Colors.grey[500]),
+                              contentPadding:
+                              EdgeInsets.only(left: 10, bottom: 0, top: 22),
+                              suffixIcon: IconButton(
+                                padding: EdgeInsets.only(top: 12),
+                                icon: Icon(Icons.search),
+                                onPressed: () => print('searching...'),
+                              ),
+                            ),
+                          ),
+                          child: ListView(
+                            children: this._buildFilterItem(),
+                          ),
+                        );
+                      },
+                    ).then((value) {
+                      widget.onPressed(value);
+                    });
+                },
+              ),
             ),
           ),
         ],
@@ -141,29 +151,29 @@ class VagueSelectorState extends State<VagueSelector> {
     }
     return filterList
         .map(
-          (item) => GestureDetector(
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom:
-                              BorderSide(color: Colors.black26, width: 0.5))),
-                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                  child: Text(
-                    item.content.toString(),
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ),
-                onTap: () {
-                  this.setState(() {
-                    this._display = item.display.toString();
-                    this._searchContent = "";
-                  });
-                  this._controller.clear();
-                  Navigator.of(context).pop(item.value);
-                },
+          (item) =>
+          GestureDetector(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom:
+                      BorderSide(color: Colors.black26, width: 0.5))),
+              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+              child: Text(
+                item.content.toString(),
+                style: TextStyle(fontSize: 15),
               ),
-        )
+            ),
+            onTap: () {
+              this.setState(() {
+                this._searchContent = "";
+              });
+              this._controller.clear();
+              Navigator.of(context).pop(item.value);
+            },
+          ),
+    )
         .toList();
   }
 }
@@ -185,7 +195,8 @@ class SelectorItem {
   static List<SelectorItem> allFromJson(List jsonList,
       {display, valueName, content}) {
     return jsonList
-        .map((json) => SelectorItem.fromJson(json,
+        .map((json) =>
+        SelectorItem.fromJson(json,
             display: display, valueName: valueName, content: content))
         .toList();
   }
