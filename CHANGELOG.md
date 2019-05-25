@@ -12,6 +12,9 @@
 ## 0.1.5 
 2019/05/21
 ## 0.1.6 
-2019/05/21
+2019/05/25
 - VagueSelector can disabled
 - VagueSelector repair set default value
+## 0.1.7 
+2019/05/25
+- Selector can disabled
