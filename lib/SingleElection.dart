@@ -7,6 +7,7 @@ class SingleElection extends StatefulWidget {
   final OnPressedFunction onPressed;
   final MaterialColor color;
   final dynamic value;
+  final bool disabled;
 
   @override
   State<StatefulWidget> createState() => new SingleElectionState();
@@ -15,7 +16,8 @@ class SingleElection extends StatefulWidget {
       {@required this.list,
       @required this.value,
       @required this.onPressed,
-      this.color});
+      this.color,
+      this.disabled = false});
 }
 
 class SingleElectionState extends State<SingleElection> {
@@ -51,12 +53,34 @@ class SingleElectionState extends State<SingleElection> {
                   style: new TextStyle(color: selected ? color : Colors.black),
                 ),
                 onPressed: () {
-                  widget.onPressed(widget.list[index]);
+                  widget.disabled
+                      ? _showDialog()
+                      : widget.onPressed(widget.list[index]);
                 },
               ),
             );
           }))
         : Container();
+  }
+
+  _showDialog() {
+    showDialog(
+        context: context,
+        builder: (context) => Center(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.black87,
+                    borderRadius: BorderRadius.circular(10.0)),
+                padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                child: Text(
+                  "不可用操作",
+                  style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.white,
+                      decoration: TextDecoration.none),
+                ),
+              ),
+            ));
   }
 }
 
