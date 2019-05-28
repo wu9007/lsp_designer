@@ -4,12 +4,13 @@ import 'package:lsp_designer/CircularSheet.dart';
 /// 底部列表模糊查询选择器
 /// Created by Shusheng.
 class VagueSelector extends StatefulWidget {
-  VagueSelector.build({@required this.label,
-    @required this.value,
-    @required this.placeholder,
-    @required this.list,
-    @required this.onPressed,
-    this.disabled = false});
+  VagueSelector.build(
+      {@required this.label,
+      @required this.value,
+      @required this.placeholder,
+      @required this.list,
+      @required this.onPressed,
+      this.disabled = false});
 
   final Text label;
   final dynamic value;
@@ -56,10 +57,9 @@ class VagueSelectorState extends State<VagueSelector> {
     bool valid = widget.value != null;
     String display;
     if (valid && widget.list != null && widget.list.length > 0) {
-      display =
-          widget.list
-              .singleWhere((item) => item.value == widget.value)
-              .display;
+      SelectorItem item =
+          widget.list.singleWhere((item) => item.value == widget.value);
+      display = item?.display;
     }
 
     return Container(
@@ -77,7 +77,7 @@ class VagueSelectorState extends State<VagueSelector> {
                   decoration: BoxDecoration(
                       border: Border(
                           bottom:
-                          BorderSide(width: 0.5, color: Colors.grey[350]))),
+                              BorderSide(width: 0.5, color: Colors.grey[350]))),
                   padding: EdgeInsets.only(left: 10.0),
                   child: Row(
                     children: <Widget>[
@@ -91,7 +91,7 @@ class VagueSelectorState extends State<VagueSelector> {
                       ),
                       Container(
                         padding:
-                        EdgeInsets.symmetric(vertical: 0, horizontal: 5.5),
+                            EdgeInsets.symmetric(vertical: 0, horizontal: 5.5),
                         child: Icon(Icons.list, color: Colors.black54),
                       ),
                     ],
@@ -109,7 +109,7 @@ class VagueSelectorState extends State<VagueSelector> {
                               hintText: "Search...",
                               hintStyle: TextStyle(color: Colors.grey[500]),
                               contentPadding:
-                              EdgeInsets.only(left: 10, bottom: 0, top: 22),
+                                  EdgeInsets.only(left: 10, bottom: 0, top: 22),
                               suffixIcon: IconButton(
                                 padding: EdgeInsets.only(top: 12),
                                 icon: Icon(Icons.search),
@@ -151,29 +151,28 @@ class VagueSelectorState extends State<VagueSelector> {
     }
     return filterList
         .map(
-          (item) =>
-          GestureDetector(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                  border: Border(
-                      bottom:
-                      BorderSide(color: Colors.black26, width: 0.5))),
-              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-              child: Text(
-                item.content.toString(),
-                style: TextStyle(fontSize: 15),
+          (item) => GestureDetector(
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom:
+                              BorderSide(color: Colors.black26, width: 0.5))),
+                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                  child: Text(
+                    item.content.toString(),
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ),
+                onTap: () {
+                  this.setState(() {
+                    this._searchContent = "";
+                  });
+                  this._controller.clear();
+                  Navigator.of(context).pop(item.value);
+                },
               ),
-            ),
-            onTap: () {
-              this.setState(() {
-                this._searchContent = "";
-              });
-              this._controller.clear();
-              Navigator.of(context).pop(item.value);
-            },
-          ),
-    )
+        )
         .toList();
   }
 }
@@ -195,8 +194,7 @@ class SelectorItem {
   static List<SelectorItem> allFromJson(List jsonList,
       {display, valueName, content}) {
     return jsonList
-        .map((json) =>
-        SelectorItem.fromJson(json,
+        .map((json) => SelectorItem.fromJson(json,
             display: display, valueName: valueName, content: content))
         .toList();
   }
