@@ -60,7 +60,7 @@ class VagueSelectorState extends State<VagueSelector> {
       SelectorItem item = widget.list.singleWhere(
           (item) => item.value == widget.value,
           orElse: () => (null));
-      display = item?.display;
+      display = item != null ? item.display : widget.value;
     }
 
     return Container(

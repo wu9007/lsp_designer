@@ -12,7 +12,7 @@ A practical component library from Logistics Service Management Product Group fe
 
 ```yaml
 dependencies:
- lsp_designer: ^0.1.12
+ lsp_designer: ^0.1.13
 ```
 
 ## Usage example
