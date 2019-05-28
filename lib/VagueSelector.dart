@@ -57,8 +57,9 @@ class VagueSelectorState extends State<VagueSelector> {
     bool valid = widget.value != null;
     String display;
     if (valid && widget.list != null && widget.list.length > 0) {
-      SelectorItem item =
-          widget.list.singleWhere((item) => item.value == widget.value);
+      SelectorItem item = widget.list.singleWhere(
+          (item) => item.value == widget.value,
+          orElse: () => (null));
       display = item?.display;
     }
 

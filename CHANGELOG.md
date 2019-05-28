@@ -27,3 +27,5 @@
 - SingleElection can disabled
 ## 0.1.11
 2019/05/28
+## 0.1.12
+2019/05/28
