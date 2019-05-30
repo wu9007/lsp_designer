@@ -72,12 +72,14 @@ class DynamicListViewState extends State<DynamicListView> {
   /// 刷新 数据初始化
   Future<Null> _onRefresh() async {
     List initDataList = await widget.initRequester();
+    if (!this.mounted) return;
     this.setState(() => this._dataList = initDataList);
     return;
   }
 
   /// 加载更多数据
   _loadMore() async {
+    if (!this.mounted) return;
     this.setState(() => isPerformingRequest = true);
     List newDataList = await widget.dataRequester();
     if (newDataList != null) {
@@ -93,6 +95,7 @@ class DynamicListViewState extends State<DynamicListView> {
         _dataList.addAll(newDataList);
       }
     }
+    if (!this.mounted) return;
     this.setState(() => isPerformingRequest = false);
   }
 }

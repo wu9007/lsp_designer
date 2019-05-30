@@ -28,6 +28,7 @@ class VagueSelectorState extends State<VagueSelector> {
   String _searchContent;
 
   VagueSelectorState() {
+    if (!this.mounted) return;
     _controller.addListener(() {
       if (_controller.text.isEmpty) {
         setState(() {
@@ -166,6 +167,7 @@ class VagueSelectorState extends State<VagueSelector> {
                   ),
                 ),
                 onTap: () {
+                  if (!this.mounted) return;
                   this.setState(() {
                     this._searchContent = "";
                   });
