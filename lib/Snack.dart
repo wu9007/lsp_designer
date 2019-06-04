@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// 底部提示
-/// Created by Shusheng.
 class Snack {
-  BuildContext _context;
+  BuildContext context;
 
-  Snack.of(context);
+  Snack.of(this.context);
 
   showSnackBar(
       {@required String content,
@@ -16,19 +14,19 @@ class Snack {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 10),
-            child: Icon(icon, color: Colors.black),
+            child: Icon(icon, color: Colors.white),
           ),
           Text(
             content,
-            style: TextStyle(color: Colors.black54),
+            style: TextStyle(color: Colors.white),
           )
         ],
       ),
       backgroundColor: backgroundColor,
       action: SnackBarAction(
-          label: '关 闭', textColor: Colors.black54, onPressed: () {}),
+          label: '关 闭', textColor: Colors.white, onPressed: () {}),
       duration: Duration(seconds: 3),
     );
-    Scaffold.of(_context).showSnackBar(snackBar);
+    Scaffold.of(this.context).showSnackBar(snackBar);
   }
 }
