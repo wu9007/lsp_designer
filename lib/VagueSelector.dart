@@ -4,13 +4,7 @@ import 'package:lsp_designer/CircularSheet.dart';
 /// 底部列表模糊查询选择器
 /// Created by Shusheng.
 class VagueSelector extends StatefulWidget {
-  VagueSelector.build(
-      {@required this.label,
-      @required this.value,
-      @required this.placeholder,
-      @required this.list,
-      @required this.onPressed,
-      this.disabled = false});
+  VagueSelector.build({@required this.label, @required this.value, @required this.placeholder, @required this.list, @required this.onPressed, this.disabled = false});
 
   final Text label;
   final dynamic value;
@@ -28,7 +22,6 @@ class VagueSelectorState extends State<VagueSelector> {
   String _searchContent;
 
   VagueSelectorState() {
-    if (!this.mounted) return;
     _controller.addListener(() {
       if (_controller.text.isEmpty) {
         setState(() {
@@ -58,9 +51,7 @@ class VagueSelectorState extends State<VagueSelector> {
     bool valid = widget.value != null;
     String display;
     if (valid && widget.list != null && widget.list.length > 0) {
-      SelectorItem item = widget.list.singleWhere(
-          (item) => item.value == widget.value,
-          orElse: () => (null));
+      SelectorItem item = widget.list.singleWhere((item) => item.value == widget.value, orElse: () => (null));
       display = item != null ? item.display : widget.value;
     }
 
@@ -76,24 +67,18 @@ class VagueSelectorState extends State<VagueSelector> {
               child: GestureDetector(
                 child: Container(
                   height: 31,
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom:
-                              BorderSide(width: 0.5, color: Colors.grey[350]))),
+                  decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey[350]))),
                   padding: EdgeInsets.only(left: 10.0),
                   child: Row(
                     children: <Widget>[
                       Expanded(
                         child: Text(
                           valid ? display ?? '' : widget.placeholder,
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: valid ? Colors.black : Colors.black54),
+                          style: TextStyle(fontSize: 16, color: valid ? Colors.black : Colors.black54),
                         ),
                       ),
                       Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 0, horizontal: 5.5),
+                        padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5.5),
                         child: Icon(Icons.list, color: Colors.black54),
                       ),
                     ],
@@ -110,12 +95,10 @@ class VagueSelectorState extends State<VagueSelector> {
                             decoration: InputDecoration(
                               hintText: "Search...",
                               hintStyle: TextStyle(color: Colors.grey[500]),
-                              contentPadding:
-                                  EdgeInsets.only(left: 10, bottom: 0, top: 22),
-                              suffixIcon: IconButton(
+                              contentPadding: EdgeInsets.only(left: 10, bottom: 0, top: 22),
+                              suffixIcon: Padding(
                                 padding: EdgeInsets.only(top: 12),
-                                icon: Icon(Icons.search),
-                                onPressed: () => print('searching...'),
+                                child: Icon(Icons.search),
                               ),
                             ),
                           ),
@@ -144,9 +127,7 @@ class VagueSelectorState extends State<VagueSelector> {
       filterList = List();
       for (int i = 0; i < widget.list.length; i++) {
         SelectorItem item = widget.list.elementAt(i);
-        if (item.content
-            .toLowerCase()
-            .contains(this._searchContent.toLowerCase())) {
+        if (item.content.toLowerCase().contains(this._searchContent.toLowerCase())) {
           filterList.add(item);
         }
       }
@@ -156,10 +137,7 @@ class VagueSelectorState extends State<VagueSelector> {
           (item) => GestureDetector(
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom:
-                              BorderSide(color: Colors.black26, width: 0.5))),
+                  decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black26, width: 0.5))),
                   padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
                   child: Text(
                     item.content.toString(),
@@ -185,21 +163,15 @@ class SelectorItem {
   dynamic value;
   dynamic content;
 
-  SelectorItem(
-      {@required this.display, @required this.value, @required this.content});
+  SelectorItem({@required this.display, @required this.value, @required this.content});
 
-  SelectorItem.fromJson(Map<String, dynamic> json,
-      {display, valueName, content})
+  SelectorItem.fromJson(Map<String, dynamic> json, {display, valueName, content})
       : display = json[display ?? 'label'] ?? '',
         value = json[valueName ?? 'value'] ?? '',
         content = json[content ?? 'content'] ?? '';
 
-  static List<SelectorItem> allFromJson(List jsonList,
-      {display, valueName, content}) {
-    return jsonList
-        .map((json) => SelectorItem.fromJson(json,
-            display: display, valueName: valueName, content: content))
-        .toList();
+  static List<SelectorItem> allFromJson(List jsonList, {display, valueName, content}) {
+    return jsonList.map((json) => SelectorItem.fromJson(json, display: display, valueName: valueName, content: content)).toList();
   }
 }
 
