@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 typedef ValueChanged<T> = void Function(T value);
+/// 数字操作框
 /// Created by Shusheng.
 class NumberField extends StatefulWidget {
   final int miniValue;
