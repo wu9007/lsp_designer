@@ -50,7 +50,7 @@ class SelectorState<T> extends State<Selector<T>> {
                 opacity: widget.disabled ? 0.5 : 1,
                 child: DropdownButton(
                   /// iconDisabledColor: Colors.black54,
-                  iconEnabledColor: Colors.black54,
+                  /// iconEnabledColor: Colors.black54,
                   disabledHint: disabledHint,
                   hint: Container(
                     child: widget.hint,
