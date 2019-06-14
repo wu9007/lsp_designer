@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lsp_designer_example/BillModel.dart';
-import 'package:lsp_designer/SingleElection.dart';
-import 'package:lsp_designer/Selector.dart';
-import 'package:lsp_designer/VagueSelector.dart';
+import 'package:lsp_designer/form/SingleElection.dart';
+import 'package:lsp_designer/form/Selector.dart';
+import 'package:lsp_designer/form/VagueSelector.dart';
+import 'package:lsp_designer/form/NumberField.dart';
 
 class AddBill extends StatefulWidget {
   @override
@@ -11,7 +12,6 @@ class AddBill extends StatefulWidget {
 
 class AddBillState extends State<AddBill> {
   BillModel bill = BillModel.build();
-  TextEditingController salesCodeController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,50 +22,6 @@ class AddBillState extends State<AddBill> {
       ),
       body: ListView(
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 18, horizontal: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  '中心库房：',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 10),
-                  child: SingleElection.build(
-                    value: this.bill.warehouse,
-                    color: Colors.teal,
-                    list: this._warehouseList,
-                    onPressed: (item) =>
-                        this.setState(() => this.bill.warehouse = item.value),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 18, horizontal: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  '开单类型：',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 10),
-                  child: SingleElection.build(
-                    value: this.bill.billType,
-                    color: Colors.orange,
-                    list: this._billTypeList,
-                    onPressed: (item) =>
-                        this.setState(() => this.bill.billType = item.value),
-                  ),
-                ),
-              ],
-            ),
-          ),
           Selector(
             value: this.bill.supplier,
             label: Text(
@@ -86,14 +42,10 @@ class AddBillState extends State<AddBill> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
             ),
             list: List<SelectorItem>.generate(15, (index) {
-              return SelectorItem(
-                  display: 'AB-190517' + index.toString(),
-                  value: '190517' + index.toString(),
-                  content: '单据：AB-190517' + index.toString());
+              return SelectorItem(display: 'AB-190517' + index.toString(), value: '190517' + index.toString(), content: '单据：AB-190517' + index.toString());
             }),
             onPressed: (value) {
-              if (value != null)
-                this.setState(() => this.bill.associateBill = value);
+              if (value != null) this.setState(() => this.bill.associateBill = value);
             },
             placeholder: '请选择关联单据',
           ),
@@ -112,29 +64,7 @@ class AddBillState extends State<AddBill> {
                     value: this.bill.purchaseMode,
                     color: Colors.deepOrange,
                     list: this._purchaseModeList,
-                    onPressed: (item) => this
-                        .setState(() => this.bill.purchaseMode = item.value),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 18, horizontal: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  '付款方式：',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 10),
-                  child: SingleElection.build(
-                    value: this.bill.payMode,
-                    list: this._payModeList,
-                    onPressed: (item) =>
-                        this.setState(() => this.bill.payMode = item.value),
+                    onPressed: (item) => this.setState(() => this.bill.purchaseMode = item.value),
                   ),
                 ),
               ],
@@ -153,35 +83,29 @@ class AddBillState extends State<AddBill> {
             store: this._acceptorStore(),
             onChange: (item) => this.setState(() => this.bill.acceptor = item),
           ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 3.0, horizontal: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  '销货单号：',
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 8),
+                child: Text(
+                  '数        量：',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
                 ),
-                Expanded(
-                  child: Container(
-                    height: 52,
-                    child: TextField(
-                      controller: this.salesCodeController,
-                      autofocus: false,
-                      decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.only(left: 10, bottom: 3, top: 18)),
-                      onChanged: (value) =>
-                          this.setState(() => this.bill.salesCode = value),
-                    ),
-                  ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+                child: NumberField.build(
+                  initValue: 0,
+                  miniValue: 0,
+                  maxValue: 100,
+                  onChange: (value) {
+                    print(value);
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          Divider(
-            height: 12,
-          )
         ],
       ),
       bottomNavigationBar: BottomAppBar(
@@ -191,43 +115,20 @@ class AddBillState extends State<AddBill> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            IconButton(
-                icon: Icon(Icons.hot_tub, color: Colors.white),
-                onPressed: () {}),
-            IconButton(
-                icon: Icon(Icons.add_a_photo, color: Colors.white),
-                onPressed: () {})
+            IconButton(icon: Icon(Icons.hot_tub, color: Colors.white), onPressed: () {}),
+            IconButton(icon: Icon(Icons.add_a_photo, color: Colors.white), onPressed: () {})
           ],
         ),
       ),
-      floatingActionButton: SaveButton(this.bill.available(),
+      floatingActionButton: SaveButton(
           successCallback: () => this.setState(() {
                 this.bill = BillModel.build();
-                this.salesCodeController.clear();
               })),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 
-  List<SingleElectionItem> _payModeList = List.generate(
-      2,
-      (index) =>
-          SingleElectionItem('付款方式' + index.toString(), index.toString()));
-
-  List<SingleElectionItem> _purchaseModeList = List.generate(
-      5,
-      (index) =>
-          SingleElectionItem('采购方式' + index.toString(), index.toString()));
-
-  List<SingleElectionItem> _billTypeList = List.generate(
-      2,
-      (index) =>
-          SingleElectionItem('开单类型' + index.toString(), index.toString()));
-
-  List<SingleElectionItem> _warehouseList = List.generate(
-      3,
-      (index) =>
-          SingleElectionItem('中心库房' + index.toString(), index.toString()));
+  List<SingleElectionItem> _purchaseModeList = List.generate(5, (index) => SingleElectionItem('采购方式' + index.toString(), index.toString()));
 
   _supplierStore() {
     return List.generate(
@@ -255,26 +156,19 @@ class AddBillState extends State<AddBill> {
 }
 
 class SaveButton extends StatelessWidget {
-  SaveButton(this.available, {this.successCallback, this.failCallback});
+  SaveButton({this.successCallback});
 
-  final bool available;
   final Function successCallback;
-  final Function failCallback;
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
       onPressed: () {
-        if (available) {
-          if (this.successCallback != null) this.successCallback();
-          this._showSnackBar(context, '保存成功', true);
-        } else {
-          if (this.failCallback != null) this.failCallback();
-          this._showSnackBar(context, '存在未填写项', false);
-        }
+        if (this.successCallback != null) this.successCallback();
+        this._showSnackBar(context, '保存成功', true);
       },
       foregroundColor: Colors.white,
-      backgroundColor: available ? Colors.cyan : Colors.grey,
+      backgroundColor: Colors.cyan,
       icon: Icon(
         Icons.send,
       ),
@@ -297,8 +191,7 @@ class SaveButton extends StatelessWidget {
         ],
       ),
       backgroundColor: successful ? Colors.green : Colors.yellowAccent,
-      action: SnackBarAction(
-          label: '关 闭', textColor: Colors.black54, onPressed: () {}),
+      action: SnackBarAction(label: '关 闭', textColor: Colors.black54, onPressed: () {}),
       duration: Duration(seconds: 3),
     );
     Scaffold.of(context).showSnackBar(snackBar);

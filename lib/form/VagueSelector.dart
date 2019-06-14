@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:lsp_designer/CircularSheet.dart';
+import 'package:lsp_designer/card/CircularSheet.dart';
 
 /// 底部列表模糊查询选择器
 /// Created by Shusheng.
 class VagueSelector extends StatefulWidget {
-  VagueSelector.build({@required this.label, @required this.value, @required this.placeholder, @required this.list, @required this.onPressed, this.disabled = false});
+  VagueSelector.build({
+    Key key,
+    @required this.label,
+    @required this.value,
+    @required this.placeholder,
+    @required this.list,
+    @required this.onPressed,
+    this.disabled = false,
+  }) : super(key: key);
 
   final Text label;
   final dynamic value;

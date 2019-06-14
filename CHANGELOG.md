@@ -51,3 +51,7 @@
 ## 0.1.20
 2019/06/07
 ## 0.1.21
+2019/06/14
+## 0.1.22
+- update NumberField
+- update path of component

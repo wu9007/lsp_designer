@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 /// 原角薄片
 /// Created by Shusheng.
 class CircularSheet extends StatelessWidget {
@@ -7,8 +8,12 @@ class CircularSheet extends StatelessWidget {
   final BorderRadius borderRadius;
   final double height;
 
-  CircularSheet(
-      {this.head, @required this.child, this.borderRadius, this.height});
+  CircularSheet({
+    this.head,
+    @required this.child,
+    this.borderRadius,
+    this.height,
+  });
 
   @override
   Widget build(BuildContext context) {

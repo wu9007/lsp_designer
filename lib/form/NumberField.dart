@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 typedef ValueChanged<T> = void Function(T value);
+
 /// 数字操作框
 /// Created by Shusheng.
 class NumberField extends StatefulWidget {
@@ -10,11 +11,13 @@ class NumberField extends StatefulWidget {
   final int initValue;
   final ValueChanged<int> onChange;
 
-  NumberField.build(
-      {@required this.miniValue,
-      @required this.maxValue,
-      @required this.initValue,
-      @required this.onChange});
+  NumberField.build({
+    Key key,
+    @required this.miniValue,
+    @required this.maxValue,
+    @required this.initValue,
+    @required this.onChange,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => NumberFieldState();
@@ -22,13 +25,13 @@ class NumberField extends StatefulWidget {
 
 class NumberFieldState extends State<NumberField> {
   int _value;
-  TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    this._value = widget.initValue;
-    this._controller.text = this._value.toString();
+    if (this.widget.initValue < this.widget.miniValue) this._value = this.widget.miniValue;
+    if (this.widget.initValue > this.widget.maxValue) this._value = this.widget.maxValue;
+    if (this.widget.initValue >= this.widget.miniValue && this.widget.initValue <= this.widget.maxValue) this._value = this.widget.initValue;
   }
 
   @override
@@ -42,22 +45,21 @@ class NumberFieldState extends State<NumberField> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           InkWell(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
             onTap: () {
               if (this._value > widget.miniValue) {
-                this._value = this._value - 1;
+                this.setState(() => this._value = this._value - 1);
               } else {
-                this._value = widget.miniValue;
+                this.setState(() => this._value = widget.miniValue);
               }
-              this._controller.text = this._value.toString();
               this.widget.onChange(this._value);
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 3),
               decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      bottomLeft: Radius.circular(10))),
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
+              ),
               child: Icon(
                 Icons.remove,
                 color: Colors.black54,
@@ -69,22 +71,30 @@ class NumberFieldState extends State<NumberField> {
             alignment: Alignment.center,
             child: TextField(
               onChanged: (content) {
-                int inputValue = int.parse(content);
-                if (inputValue > widget.maxValue) {
-                  this._value = widget.maxValue;
-                } else if (inputValue < widget.miniValue) {
-                  this._value = widget.miniValue;
+                if (content == null || content.toString().length == 0) {
+                  this.setState(() => this._value = this.widget.miniValue);
                 } else {
-                  this._value = inputValue;
+                  int inputValue = int.parse(content);
+                  if (inputValue > widget.maxValue) {
+                    this.setState(() => this._value = widget.maxValue);
+                  } else if (inputValue < widget.miniValue) {
+                    this.setState(() => this._value = widget.miniValue);
+                  } else {
+                    this.setState(() => this._value = inputValue);
+                  }
                 }
-                this._controller.text = this._value.toString();
                 this.widget.onChange(this._value);
               },
-              controller: this._controller,
+              controller: TextEditingController.fromValue(
+                TextEditingValue(
+                  text: this._value.toString(),
+                  selection: TextSelection.fromPosition(
+                    TextPosition(affinity: TextAffinity.downstream, offset: this._value.toString().length),
+                  ),
+                ),
+              ),
               keyboardType: TextInputType.number,
-              inputFormatters: [
-                WhitelistingTextInputFormatter(RegExp("[0-9]"))
-              ],
+              inputFormatters: [WhitelistingTextInputFormatter(RegExp("[0-9]"))],
               textAlign: TextAlign.center,
               style: new TextStyle(
                 fontSize: 17.0,
@@ -99,22 +109,18 @@ class NumberFieldState extends State<NumberField> {
             ),
           ),
           InkWell(
+            borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
             onTap: () {
               if (this._value < widget.maxValue) {
-                this._value = this._value + 1;
+                this.setState(() => this._value = this._value + 1);
               } else {
-                this._value = widget.maxValue;
+                this.setState(() => this._value = widget.maxValue);
               }
-              this._controller.text = this._value.toString();
               this.widget.onChange(this._value);
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 3),
-              decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomRight: Radius.circular(10))),
+              decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10))),
               child: Icon(
                 Icons.add,
                 color: Colors.black54,
@@ -129,6 +135,5 @@ class NumberFieldState extends State<NumberField> {
   @override
   void dispose() {
     super.dispose();
-    this._controller.dispose();
   }
 }
