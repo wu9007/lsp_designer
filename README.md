@@ -12,10 +12,21 @@ A practical component library from Logistics Service Management Product Group fe
 
 ```yaml
 dependencies:
- lsp_designer: ^0.1.22
+ lsp_designer: ^0.1.23
 ```
 
 ## Usage example
+
+### MultipleSelect 
+```dart
+MultipleSelect.showMultipleSelector(
+                context,
+                dataList: List.generate(15, (index) => MultipleSelectItem.build(value: index, display: '第$index项显示内容', content: '第$index项下拉内容')),
+              ).then((selectedList) {
+                if (selectedList != null) selectedList.forEach((item) => print(item.display));
+              });
+```
+
 ### SingleElection 
 #### `SingleElection`
 `SingleElection.build(

@@ -55,3 +55,6 @@
 ## 0.1.22
 - update NumberField
 - update path of component
+## 0.1.23
+2019/07/05
+- add multiple_select
