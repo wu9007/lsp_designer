@@ -61,3 +61,6 @@
 ## 0.1.24
 2019/07/09
 - modify multi_drop_down style
+## 0.1.25
+2019/07/09
+- make multi_drop_down support default values
