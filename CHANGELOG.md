@@ -67,3 +67,6 @@
 ## 0.1.26
 2019/07/09
 - make multi_drop_down support disable
+## 0.1.27
+2019/07/09
+- modify multi_drop_down style

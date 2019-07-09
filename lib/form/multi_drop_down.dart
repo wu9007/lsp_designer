@@ -40,7 +40,7 @@ class MultipleDropDownState extends State<MultipleDropDown> {
         children: <Widget>[
           Expanded(
             child: Container(
-              margin: EdgeInsets.symmetric(vertical: 3.0, horizontal: 8.0),
+              margin: EdgeInsets.only(right: 8),
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -56,7 +56,6 @@ class MultipleDropDownState extends State<MultipleDropDown> {
                 ],
               ),
               decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey[350]))),
-              padding: EdgeInsets.symmetric(horizontal: 2),
               width: this._width,
             ),
           ),
@@ -90,7 +89,7 @@ class MultipleDropDownState extends State<MultipleDropDown> {
             decoration: TextDecoration.none,
           ),
         ),
-        padding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+        padding: EdgeInsets.only(top: 6, bottom: 6, left: 10),
       );
     } else {
       return Wrap(
@@ -98,25 +97,25 @@ class MultipleDropDownState extends State<MultipleDropDown> {
             ._selectedElements
             .map(
               (element) => Padding(
-                padding: EdgeInsets.symmetric(horizontal: 1),
-                child: RawChip(
-                  avatar: CircleAvatar(
-                    backgroundColor: Colors.redAccent.shade400,
-                    child: Text(element.display.toString().substring(0, 1)),
-                  ),
-                  isEnabled: !this.widget.disable,
-                  label: Text(element.display),
-                  onDeleted: () {
-                    if (!this.widget.disable) {
-                      MultipleSelectItem clickElement = this.widget.elements.singleWhere((item) => item.value == element.value);
-                      clickElement.selected = false;
-                      this.setState(() => this._selectedElements.remove(element));
-                      this.widget.onConfirm(this._selectedElements);
-                    }
-                  },
-                ),
+            padding: EdgeInsets.symmetric(horizontal: 1),
+            child: RawChip(
+              avatar: CircleAvatar(
+                backgroundColor: Colors.redAccent.shade400,
+                child: Text(element.display.toString().substring(0, 1)),
               ),
-            )
+              isEnabled: !this.widget.disable,
+              label: Text(element.display),
+              onDeleted: () {
+                if (!this.widget.disable) {
+                  MultipleSelectItem clickElement = this.widget.elements.singleWhere((item) => item.value == element.value);
+                  clickElement.selected = false;
+                  this.setState(() => this._selectedElements.remove(element));
+                  this.widget.onConfirm(this._selectedElements);
+                }
+              },
+            ),
+          ),
+        )
             .toList(),
       );
     }
