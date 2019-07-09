@@ -79,3 +79,6 @@
 ## 0.1.30
 2019/07/09
 - rename the multi_drop_down arg
+## 0.1.31
+2019/07/09
+- deserialization
