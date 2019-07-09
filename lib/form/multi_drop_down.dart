@@ -33,13 +33,7 @@ class MultipleDropDownState extends State<MultipleDropDown> {
           Expanded(
             child: Container(
               child: this._getContent(),
-              decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                color: Colors.grey,
-                style: BorderStyle.solid,
-                width: 1,
-              ))),
+              decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey[350]))),
               padding: EdgeInsets.symmetric(horizontal: 2),
               width: this._width,
             ),

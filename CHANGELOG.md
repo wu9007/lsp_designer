@@ -58,3 +58,6 @@
 ## 0.1.23
 2019/07/05
 - add multiple_select
+## 0.1.24
+2019/07/09
+- modify multi_drop_down style
