@@ -92,7 +92,7 @@ class SingleElectionItem {
         sourceBody = json;
 
   static List<SingleElectionItem> allFromJson(List jsonList, {labelName, valueName}) {
-    return jsonList.map((json) => SingleElectionItem.fromJson(json, labelName: labelName, valueName: valueName)).toList();
+    return jsonList != null ? jsonList.map((json) => SingleElectionItem.fromJson(json, labelName: labelName, valueName: valueName)).toList() : [];
   }
 }
 

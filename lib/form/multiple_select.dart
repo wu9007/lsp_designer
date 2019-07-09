@@ -187,6 +187,6 @@ class MultipleSelectItem<V, D, C> {
         content = json[contentKey ?? 'content'] ?? '';
 
   static List<MultipleSelectItem> allFromJson(List jsonList, {valueKey, displayKey, contentKey}) {
-    return jsonList.map((json) => MultipleSelectItem.fromJson(json, displayKey: displayKey, valueKey: valueKey, contentKey: contentKey)).toList();
+    return jsonList != null ? jsonList.map((json) => MultipleSelectItem.fromJson(json, displayKey: displayKey, valueKey: valueKey, contentKey: contentKey)).toList() : [];
   }
 }

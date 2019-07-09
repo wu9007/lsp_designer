@@ -73,3 +73,6 @@
 ## 0.1.28
 2019/07/09
 - modify multi_drop_down widget make the values was required
+## 0.1.29
+2019/07/09
+- avoid null point exception

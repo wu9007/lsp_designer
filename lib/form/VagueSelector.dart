@@ -143,24 +143,24 @@ class VagueSelectorState extends State<VagueSelector> {
     return filterList
         .map(
           (item) => GestureDetector(
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black26, width: 0.5))),
-                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                  child: Text(
-                    item.content.toString(),
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ),
-                onTap: () {
-                  if (!this.mounted) return;
-                  this.setState(() {
-                    this._searchContent = "";
-                  });
-                  this._controller.clear();
-                  Navigator.of(context).pop(item.value);
-                },
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black26, width: 0.5))),
+              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+              child: Text(
+                item.content.toString(),
+                style: TextStyle(fontSize: 15),
               ),
+            ),
+            onTap: () {
+              if (!this.mounted) return;
+              this.setState(() {
+                this._searchContent = "";
+              });
+              this._controller.clear();
+              Navigator.of(context).pop(item.value);
+            },
+          ),
         )
         .toList();
   }
@@ -179,7 +179,7 @@ class SelectorItem {
         content = json[content ?? 'content'] ?? '';
 
   static List<SelectorItem> allFromJson(List jsonList, {display, valueName, content}) {
-    return jsonList.map((json) => SelectorItem.fromJson(json, display: display, valueName: valueName, content: content)).toList();
+    return jsonList != null ? jsonList.map((json) => SelectorItem.fromJson(json, display: display, valueName: valueName, content: content)).toList() : [];
   }
 }
 
