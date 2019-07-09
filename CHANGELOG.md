@@ -64,3 +64,6 @@
 ## 0.1.25
 2019/07/09
 - make multi_drop_down support default values
+## 0.1.26
+2019/07/09
+- make multi_drop_down support disable
