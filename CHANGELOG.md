@@ -76,3 +76,6 @@
 ## 0.1.29
 2019/07/09
 - avoid null point exception
+## 0.1.30
+2019/07/09
+- rename the multi_drop_down arg

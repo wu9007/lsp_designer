@@ -12,7 +12,7 @@ A practical component library from Logistics Service Management Product Group fe
 
 ```yaml
 dependencies:
- lsp_designer: ^0.1.29
+ lsp_designer: ^0.1.30
 ```
 
 ## Usage example
@@ -34,7 +34,7 @@ List<MultipleSelectItem> elements = List.generate(15, (index) => MultipleSelectI
 List _selectedValues = elements.where((element) => element.value % 2 == 0).map((item) => item.value).toList();
 MultipleDropDown(
           placeholder: '请选择',
-          disable: false,
+          disabled: false,
           values: _selectedValues,
           elements: elements,
           onConfirm: (selectedValues) {
