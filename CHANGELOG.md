@@ -70,3 +70,6 @@
 ## 0.1.27
 2019/07/09
 - modify multi_drop_down style
+## 0.1.28
+2019/07/09
+- modify multi_drop_down widget make the values was required

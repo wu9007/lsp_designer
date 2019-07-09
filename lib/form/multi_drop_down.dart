@@ -12,7 +12,7 @@ class MultipleDropDown extends StatefulWidget {
   final bool disable;
 
   MultipleDropDown({
-    this.values,
+    @required this.values,
     @required this.elements,
     @required this.onConfirm,
     this.placeholder,
@@ -122,10 +122,12 @@ class MultipleDropDownState extends State<MultipleDropDown> {
   }
 
   _initElement() {
+    this._selectedElements = [];
+    for (MultipleSelectItem item in this.widget.elements) {
+      item.selected = false;
+    }
     if (this.widget.values != null && this.widget.values.length > 0) {
-      this._selectedElements = [];
       for (MultipleSelectItem item in this.widget.elements) {
-        item.selected = false;
         for (dynamic value in this.widget.values) {
           if (item.value == value && !item.selected) {
             item.selected = true;
