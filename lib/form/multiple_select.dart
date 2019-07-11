@@ -91,23 +91,81 @@ class SelectorListState extends State<SelectorList> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                MaterialButton(
-                  onPressed: () {
-                    Navigator.pop(context);
+    return Stack(
+      children: <Widget>[
+        Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Divider(),
+              Expanded(
+                child: ListView.separated(
+                  separatorBuilder: (BuildContext context, int index) => Divider(height: 1.0, color: Colors.black54),
+                  itemCount: this._elements.length,
+                  itemBuilder: (context, index) {
+                    MultipleSelectItem item = this._elements[index];
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            flex: 6,
+                            child: Text(
+                              item.content.toString(),
+                              style: TextStyle(
+                                fontSize: 17,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: GestureDetector(
+                              child: this.widget.values.contains(item.value)
+                                  ? Icon(
+                                      Icons.check_circle,
+                                      color: Colors.green,
+                                      size: 30,
+                                    )
+                                  : Icon(
+                                      Icons.check_circle_outline,
+                                      size: 30,
+                                    ),
+                              onTap: () {
+                                this.widget.values.contains(item.value) ? this.widget.values.remove(item.value) : this.widget.values.add(item.value);
+                                this.setState(() {});
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    );
                   },
-                  child: Text(
-                    '取消',
-                    style: TextStyle(color: Colors.black54, fontSize: 18),
-                  ),
                 ),
+              ),
+            ],
+          ),
+          decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)), boxShadow: [
+            BoxShadow(
+              color: Colors.black54,
+              blurRadius: 5.0,
+            ),
+          ]),
+          padding: EdgeInsets.symmetric(vertical: 1, horizontal: 6),
+          margin: EdgeInsets.only(top: this.widget.height, bottom: 50),
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
                 MaterialButton(
                   onPressed: () {
                     Navigator.pop(context, this.widget.values);
@@ -121,65 +179,8 @@ class SelectorListState extends State<SelectorList> {
             ),
             height: 50,
           ),
-          Divider(),
-          Expanded(
-            child: ListView.separated(
-              separatorBuilder: (BuildContext context, int index) => Divider(height: 1.0, color: Colors.black54),
-              itemCount: this._elements.length,
-              itemBuilder: (context, index) {
-                MultipleSelectItem item = this._elements[index];
-                return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        flex: 6,
-                        child: Text(
-                          item.content.toString(),
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: Colors.black87,
-                            fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: GestureDetector(
-                          child: this.widget.values.contains(item.value)
-                              ? Icon(
-                                  Icons.check_circle,
-                                  color: Colors.green,
-                                  size: 30,
-                                )
-                              : Icon(
-                                  Icons.check_circle_outline,
-                                  size: 30,
-                                ),
-                          onTap: () {
-                            this.widget.values.contains(item.value) ? this.widget.values.remove(item.value) : this.widget.values.add(item.value);
-                            this.setState(() {});
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-      decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)), boxShadow: [
-        BoxShadow(
-          color: Colors.black54,
-          blurRadius: 5.0,
         ),
-      ]),
-      padding: EdgeInsets.symmetric(vertical: 1, horizontal: 6),
-      margin: EdgeInsets.only(top: this.widget.height),
+      ],
     );
   }
 }
