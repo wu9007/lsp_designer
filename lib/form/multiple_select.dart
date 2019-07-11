@@ -97,7 +97,6 @@ class SelectorListState extends State<SelectorList> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Divider(),
               Expanded(
                 child: ListView.separated(
                   separatorBuilder: (BuildContext context, int index) => Divider(height: 1.0, color: Colors.black54),
@@ -149,13 +148,10 @@ class SelectorListState extends State<SelectorList> {
             ],
           ),
           decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)), boxShadow: [
-            BoxShadow(
-              color: Colors.black54,
-              blurRadius: 5.0,
-            ),
+            BoxShadow(color: Colors.black54, blurRadius: 5.0),
           ]),
-          padding: EdgeInsets.symmetric(vertical: 1, horizontal: 6),
-          margin: EdgeInsets.only(top: this.widget.height, bottom: 50),
+          padding: EdgeInsets.only(top: 20, bottom: 5, left: 6, right: 6),
+          margin: EdgeInsets.only(top: this.widget.height, bottom: 38.5),
         ),
         Positioned(
           bottom: 0,
@@ -166,18 +162,15 @@ class SelectorListState extends State<SelectorList> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: MaterialButton(
-                    onPressed: () {
-                      Navigator.pop(context, this.widget.values);
-                    },
-                    child: Icon(Icons.close),
-                  ),
+                MaterialButton(
+                  onPressed: () {
+                    Navigator.pop(context, this.widget.values);
+                  },
+                  child: Icon(Icons.close),
                 ),
               ],
             ),
-            height: 50,
+            height: 38,
           ),
         ),
       ],
