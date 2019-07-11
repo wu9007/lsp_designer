@@ -6,10 +6,18 @@ class MultipleSelect {
   ///
   /// Display multiple selector bottom sheet.
   ///
-  static Future showMultipleSelector(BuildContext context, {@required List<MultipleSelectItem> elements}) {
+  static Future showMultipleSelector(
+    BuildContext context, {
+    @required List<MultipleSelectItem> elements,
+    @required values,
+  }) {
     return Navigator.push(
       context,
-      MultipleSelectRoute<List<MultipleSelectItem>>(barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel, elements: elements),
+      MultipleSelectRoute<List>(
+        barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        elements: elements,
+        values: values,
+      ),
     );
   }
 }
@@ -17,10 +25,12 @@ class MultipleSelect {
 class MultipleSelectRoute<T> extends PopupRoute<T> {
   final String barrierLabel;
   final List<MultipleSelectItem> elements;
+  final List values;
 
   MultipleSelectRoute({
     this.barrierLabel,
-    this.elements,
+    @required this.elements,
+    @required this.values,
   });
 
   @override
@@ -46,7 +56,10 @@ class MultipleSelectRoute<T> extends PopupRoute<T> {
     Widget bottomSheet = new MediaQuery.removePadding(
       removeTop: true,
       context: context,
-      child: SelectorList(elements: this.elements),
+      child: SelectorList(
+        elements: this.elements,
+        values: this.values,
+      ),
     );
     ThemeData theme = Theme.of(context, shadowThemeOnly: true);
     if (theme != null) {
@@ -59,8 +72,9 @@ class MultipleSelectRoute<T> extends PopupRoute<T> {
 class SelectorList<T> extends StatefulWidget {
   final List<MultipleSelectItem> elements;
   final double height;
+  final List values;
 
-  SelectorList({@required this.elements, this.height = 150});
+  SelectorList({@required this.elements, this.height = 150, @required this.values});
 
   @override
   State<StatefulWidget> createState() => SelectorListState();
@@ -96,7 +110,7 @@ class SelectorListState extends State<SelectorList> {
                 ),
                 MaterialButton(
                   onPressed: () {
-                    Navigator.pop(context, this._elements.where((item) => item.selected).toList());
+                    Navigator.pop(context, this.widget.values);
                   },
                   child: Text(
                     '确定',
@@ -134,7 +148,7 @@ class SelectorListState extends State<SelectorList> {
                       Expanded(
                         flex: 1,
                         child: GestureDetector(
-                          child: item.selected
+                          child: this.widget.values.contains(item.value)
                               ? Icon(
                                   Icons.check_circle,
                                   color: Colors.green,
@@ -145,7 +159,8 @@ class SelectorListState extends State<SelectorList> {
                                   size: 30,
                                 ),
                           onTap: () {
-                            this.setState(() => item.selected = !item.selected);
+                            this.widget.values.contains(item.value) ? this.widget.values.remove(item.value) : this.widget.values.add(item.value);
+                            this.setState(() {});
                           },
                         ),
                       )
@@ -176,14 +191,10 @@ class MultipleSelectItem<V, D, C> {
   /// drop down content.
   C content;
 
-  /// if this element was selected.
-  bool selected;
-
   MultipleSelectItem.build({
     @required this.value,
     @required this.display,
     @required this.content,
-    this.selected = false,
   });
 
   MultipleSelectItem.fromJson(
@@ -191,18 +202,15 @@ class MultipleSelectItem<V, D, C> {
     displayKey = 'display',
     valueKey = 'value',
     contentKey = 'content',
-    selectedKey = 'selected',
   })  : value = json[valueKey] ?? '',
         display = json[displayKey] ?? '',
-        content = json[contentKey] ?? '',
-        selected = json[selectedKey] ?? false;
+        content = json[contentKey] ?? '';
 
   static List<MultipleSelectItem> allFromJson(
     List jsonList, {
     displayKey = 'display',
     valueKey = 'value',
     contentKey = 'content',
-    selectedKey = 'selected',
   }) {
     return jsonList
         .map((json) => MultipleSelectItem.fromJson(
@@ -210,7 +218,6 @@ class MultipleSelectItem<V, D, C> {
               displayKey: displayKey,
               valueKey: valueKey,
               contentKey: contentKey,
-              selectedKey: selectedKey,
             ))
         .toList();
   }
