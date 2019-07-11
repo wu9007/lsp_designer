@@ -166,13 +166,13 @@ class SelectorListState extends State<SelectorList> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                MaterialButton(
-                  onPressed: () {
-                    Navigator.pop(context, this.widget.values);
-                  },
-                  child: Text(
-                    '确定',
-                    style: TextStyle(color: Colors.blue, fontSize: 18),
+                Expanded(
+                  flex: 1,
+                  child: MaterialButton(
+                    onPressed: () {
+                      Navigator.pop(context, this.widget.values);
+                    },
+                    child: Icon(Icons.close),
                   ),
                 ),
               ],
