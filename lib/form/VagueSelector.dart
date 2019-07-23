@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lsp_designer/card/CircularSheet.dart';
 
@@ -80,9 +81,12 @@ class VagueSelectorState extends State<VagueSelector> {
                   child: Row(
                     children: <Widget>[
                       Expanded(
-                        child: Text(
-                          valid ? display ?? '' : widget.placeholder,
-                          style: TextStyle(fontSize: 16, color: valid ? Colors.black : Colors.black54),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Text(
+                            valid ? display ?? '' : widget.placeholder,
+                            style: TextStyle(fontSize: 16, color: valid ? Colors.black : Colors.black54),
+                          ),
                         ),
                       ),
                       Container(
@@ -143,25 +147,25 @@ class VagueSelectorState extends State<VagueSelector> {
     return filterList
         .map(
           (item) => GestureDetector(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black26, width: 0.5))),
-              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-              child: Text(
-                item.content.toString(),
-                style: TextStyle(fontSize: 15),
-              ),
-            ),
-            onTap: () {
-              if (!this.mounted) return;
-              this.setState(() {
-                this._searchContent = "";
-              });
-              this._controller.clear();
-              Navigator.of(context).pop(item.value);
-            },
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black26, width: 0.5))),
+          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+          child: Text(
+            item.content.toString(),
+            style: TextStyle(fontSize: 15),
           ),
-        )
+        ),
+        onTap: () {
+          if (!this.mounted) return;
+          this.setState(() {
+            this._searchContent = "";
+          });
+          this._controller.clear();
+          Navigator.of(context).pop(item.value);
+        },
+      ),
+    )
         .toList();
   }
 }
