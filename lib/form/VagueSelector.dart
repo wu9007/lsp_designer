@@ -16,7 +16,7 @@ class VagueSelector extends StatefulWidget {
   }) : super(key: key);
 
   final Text label;
-  final dynamic value;
+  dynamic value;
   final String placeholder;
   final List<SelectorItem> list;
   final OnPressedFunction onPressed;
@@ -89,10 +89,22 @@ class VagueSelectorState extends State<VagueSelector> {
                           ),
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5.5),
-                        child: Icon(Icons.list, color: Colors.black54),
-                      ),
+                      !valid
+                          ? Container(
+                              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5.5),
+                              child: Icon(Icons.list, color: Colors.black54),
+                            )
+                          : GestureDetector(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5.5),
+                                child: Icon(Icons.close, color: Colors.black54),
+                              ),
+                              onTap: () {
+                                widget.value = null;
+                                widget.onPressed(null);
+                                this.setState(() {});
+                              },
+                            ),
                     ],
                   ),
                 ),
@@ -147,25 +159,25 @@ class VagueSelectorState extends State<VagueSelector> {
     return filterList
         .map(
           (item) => GestureDetector(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black26, width: 0.5))),
-          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-          child: Text(
-            item.content.toString(),
-            style: TextStyle(fontSize: 15),
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black26, width: 0.5))),
+              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+              child: Text(
+                item.content.toString(),
+                style: TextStyle(fontSize: 15),
+              ),
+            ),
+            onTap: () {
+              if (!this.mounted) return;
+              this.setState(() {
+                this._searchContent = "";
+              });
+              this._controller.clear();
+              Navigator.of(context).pop(item.value);
+            },
           ),
-        ),
-        onTap: () {
-          if (!this.mounted) return;
-          this.setState(() {
-            this._searchContent = "";
-          });
-          this._controller.clear();
-          Navigator.of(context).pop(item.value);
-        },
-      ),
-    )
+        )
         .toList();
   }
 }

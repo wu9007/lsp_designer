@@ -9,6 +9,7 @@ class NumberField extends StatefulWidget {
   final int miniValue;
   final int maxValue;
   final int initValue;
+  final double width;
   final ValueChanged<int> onChange;
 
   NumberField.build({
@@ -17,6 +18,7 @@ class NumberField extends StatefulWidget {
     @required this.maxValue,
     @required this.initValue,
     @required this.onChange,
+    this.width = 40.0,
   }) : super(key: key);
 
   @override
@@ -39,7 +41,7 @@ class NumberFieldState extends State<NumberField> {
     return Card(
       shape: RoundedRectangleBorder(
         side: BorderSide(width: 0.1, color: Colors.black26),
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,7 +69,8 @@ class NumberFieldState extends State<NumberField> {
             ),
           ),
           Container(
-            width: 40,
+            width: widget.width,
+            height: 25,
             alignment: Alignment.center,
             child: TextField(
               onChanged: (content) {
